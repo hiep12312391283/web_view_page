@@ -71,5 +71,38 @@ class MyScreen extends StatelessWidget {
 }
 ```
 
+---
+
+## Danh sách App & giá trị `appId` cần truyền
+
+Tham số `appId` xác định **ứng dụng nào** đang mở WebView. Phía Web sẽ dùng giá trị này để gửi phản hồi đến đúng nhóm Telegram tương ứng.
+
+> Truyền sai `appId` → phản hồi sẽ đi vào sai nhóm hoặc sai chủ đề.
+
+| Ứng dụng | `appId` cần truyền |
+|---|---|
+| **vBHXH** | `'1'` |
+| **easyInvoice** | `'2'` |
+
+### Ví dụ truyền đúng `appId`
+
+```dart
+// Dùng cho app vBHXH
+WebViewPage(
+  version: '1.0.0',
+  route: '/home',
+  appId: '1',   // ← vBHXH
+)
+
+// Dùng cho app easyInvoice
+WebViewPage(
+  version: '2.3.0',
+  route: '/dashboard',
+  appId: '2',   // ← easyInvoice
+)
+```
+
+---
+
 ### App ví dụ (Tích hợp sẵn)
 Trong thư mục chứa source library này có sẵn dự án `/example`. Đây là app nguyên bản bạn có thể nhảy vào (`cd example`) rồi chạy lệnh `flutter run` để tự mình bật lên test thử tính năng thay vì phải cài vào một app khác.
