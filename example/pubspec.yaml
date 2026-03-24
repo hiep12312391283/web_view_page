@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  web_view_support_sds:
+  web_view_feedback_sds:
     path: ../
 
   # The following adds the Cupertino Icons font to your application.

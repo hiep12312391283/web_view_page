@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:web_view_support_sds/web_view_page_src.dart';
+import 'package:web_view_feedback_sds/web_view_page_src.dart';
 
 void main() {
   runApp(const MyApp());

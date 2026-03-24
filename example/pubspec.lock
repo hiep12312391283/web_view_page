@@ -301,7 +301,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-  web_view_support_sds:
+  web_view_feedback_sds:
     dependency: "direct main"
     description:
       path: ".."
