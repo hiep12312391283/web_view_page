@@ -1,39 +1,75 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Thư viện WebView (Trang Hỗ Trợ)
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+Đây là một thư viện Flutter Package nội bộ chứa sẵn widget `WebViewPage`. Nó được thiết kế để nhúng một trang web (thường là trang Customer Support, FAQ, CSKH) vào bên trong ứng dụng Flutter một cách tiện lợi, sử dụng bộ nhân `flutter_inappwebview`.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+## Thư viện này làm nhiệm vụ gì?
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Thay vì phải code lại WebView ở từng dự án ứng dụng khác nhau, thư viện này đóng gói sẵn mọi thứ cần thiết:
 
-## Features
+**Các tính năng nổi bật:**
+- Đã được cấu hình tối ưu sẵn các thông số cho `InAppWebView` (Hardware acceleration, cho phép phát video inline, tự nhận quyền truy cập, v.v).
+- **Truyền dữ liệu tự động:** Tự động encode thông tin ngữ cảnh của ứng dụng (`version`, `currentRoute`, `appId`) thành chuỗi JSON và gắn vào tham số URL (`?appData=...`) để bên Web có thể bắt được.
+- **Xử lý UX/UI:** Tự động xoá Cache & Cookie mỗi khi mở để cập nhật dữ liệu mới nhất. Hiển thị sẵn màn hình Loading xoay `CircularProgressIndicator` siêu mượt trong thời gian chờ Web render.
+- **Giao tiếp với Web (JS Bridge):** Mở sẵn một kênh Javascript tên là `closeWebView`. Khi trang Web gọi lệnh sự kiện này, app Flutter sẽ hứng nó và lập tức gọi lệnh tắt màn hình (`Navigator.pop`).
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+---
 
-## Getting started
+## Cách cài đặt đưa thư viện này vào dự án App khác
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Vì đây là một package độc lập, bạn mở file cấu hình `pubspec.yaml` của cái App mà bạn muốn dùng thư viện lên, sau đó khai báo nó ở mục `dependencies`.
 
-## Usage
+### Kéo từ Git
+Nếu bạn đã đẩy code thư viện này lên kho chứa trung tâm như Gitlab/Github cho cả team xài chung, hãy chèn link tải như sau:
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+```yaml
+dependencies:
+  web_view_page:
+    git:
+      url: https://github.com/hoangxuanhiep/web_view_page.git
+      ref: main # (Hoặc branch / tag mà bạn mong muốn)
 ```
 
-## Additional information
+*(Lưu ý: Sau khi khai báo xong, nhớ chạy lệnh `flutter pub get` ở dự án App mới để nó tải thư viện về).*
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+---
+
+## Cách sử dụng
+
+Khi đã cài ở App mới rồi, bạn chỉ việc import và gọi hàm chuyển trang như bình thường bằng thao tác `Navigator.push`.
+
+```dart
+// 1. Nhúng package vào đầu file code
+import 'package:web_view_page/web_view_page.dart';
+import 'package:flutter/material.dart';
+
+class MyScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('Mở trang Hỗ trợ CSKH'),
+          onPressed: () {
+            
+            // 2. Chuyển hướng lên trên cùng của Navigation Stack
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const WebViewPage(
+                  version: '1.0.0',     // version thực tế của App chính
+                  route: '/home',       // màn hình user đang đứng 
+                  appId: 'my_app_123',  // Định danh app
+                ),
+              ),
+            );
+            
+          },
+        ),
+      ),
+    );
+  }
+}
+```
+
+### App ví dụ (Tích hợp sẵn)
+Trong thư mục chứa source library này có sẵn dự án `/example`. Đây là app nguyên bản bạn có thể nhảy vào (`cd example`) rồi chạy lệnh `flutter run` để tự mình bật lên test thử tính năng thay vì phải cài vào một app khác.

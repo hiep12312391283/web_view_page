@@ -1,5 +1,5 @@
 name: web_view_page
-description: "A new Flutter package project."
+description: "A Flutter package providing a predefined webview to display support pages."
 version: 0.0.1
 homepage:
 
