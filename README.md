@@ -79,10 +79,15 @@ Tham số `appId` xác định **ứng dụng nào** đang mở WebView. Phía W
 
 > Truyền sai `appId` → phản hồi sẽ đi vào sai nhóm hoặc sai chủ đề.
 
-| Ứng dụng | `appId` cần truyền |
+| `appId` | Ứng dụng |
 |---|---|
-| **vBHXH** | `'1'` |
-| **easyInvoice** | `'2'` |
+| `'1'` | vBHXH |
+| `'2'` | easyInvoice |
+| `'3'` | easyPOS |
+| `'4'` | easyHRM |
+| `'5'` | iCare |
+| `'6'` | CIC |
+| `'7'` | easyCA |
 
 ### Ví dụ truyền đúng `appId`
 
